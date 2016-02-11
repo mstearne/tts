@@ -9,7 +9,6 @@ var Promise = require('promise');
 var FFmpeg = require('plain-ffmpeg');
 require('buffer-concat');
 
-
 var params = [];
 var promiseCount = 0;
 var myPromises = [];
@@ -35,6 +34,8 @@ request(process.argv[2], function (error, response, html) {
 		var data = extractor(html);
 		var pageTitle = data.title;
 		var pageTitleNoSpaces = pageTitle.replace(/ /g, '_');
+			pageTitleNoSpaces = pageTitleNoSpaces.replace(/'/g, '');
+			pageTitleNoSpaces = pageTitleNoSpaces.replace(/\?/g, '');
 
 
 		var pageBody = data.text;
@@ -64,8 +65,6 @@ request(process.argv[2], function (error, response, html) {
 
 		for(var i=0;i<page.length;i++){
 
-			
-
 			 params = {
 			  text: page[i],
 			  voice: 'en-US_MichaelVoice', // Optional voice
@@ -77,7 +76,7 @@ request(process.argv[2], function (error, response, html) {
 
 			var promise = new Promise(function (resolve, reject) {
 
-				  stream.setMaxListeners(stream.getMaxListeners() + 1)
+//				  stream.setMaxListeners(stream.getMaxListeners() + 1)
 
 					console.log("Started promise "+promiseCount);
 						returnData[promiseCount]=params;
@@ -200,7 +199,7 @@ request(process.argv[2], function (error, response, html) {
 
 		}
 
-}  
+}
 });
 
 
