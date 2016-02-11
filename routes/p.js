@@ -21,11 +21,11 @@ router.get('/', function(req, res, next) {
 
 /// This object holds all of the data that the text to speech returns
     var returnData=[];
-    var inputURL=process.argv[2];
+    var inputURL=req.query.id;
     var inputURLMD5=md5(inputURL);
 
-    if (!fs.existsSync("./audio/"+inputURLMD5)){
-        fs.mkdirSync("./audio/"+inputURLMD5);
+    if (!fs.existsSync("./public/audio/"+inputURLMD5)){
+        fs.mkdirSync("./public/audio/"+inputURLMD5);
     }
 
 
@@ -70,11 +70,12 @@ router.get('/', function(req, res, next) {
 
             for(var i=0;i<page.length;i++){
 
+                // en-US_AllisonVoice
                 params = {
                     text: page[i],
-                    voice: 'en-US_MichaelVoice', // Optional voice
+                    voice: 'en-en-US_AllisonVoice', // Optional voice
                     accept: 'audio/wav',
-                    fileName: "audio/"+inputURLMD5+"/"+inputURLMD5+'_'+zeroFill(i,2)+'.wav'
+                    fileName: "public/audio/"+inputURLMD5+"/"+inputURLMD5+'_'+zeroFill(i,2)+'.wav'
                 };
 
                 promiseCount++;
@@ -151,23 +152,23 @@ router.get('/', function(req, res, next) {
 
                         console.log("allBinaryData X");
 
-                        var outputFileWAV='audio/'+inputURLMD5+'/'+pageTitleNoSpaces+'.wav';
+                        var outputFileWAV='public/audio/'+inputURLMD5+'/'+pageTitleNoSpaces+'.wav';
 
                         var wstream = fs.createWriteStream(outputFileWAV);
                         var buffer = allBinaryDataToWrite;
                         wstream.write(buffer);
                         wstream.end();
 
-                        console.log("The file was saved as "+'./audio/'+inputURLMD5+"/"+pageTitleNoSpaces+".wav");
+                        console.log("The file was saved as "+'./public/audio/'+inputURLMD5+"/"+pageTitleNoSpaces+".wav");
 
-                        var outputFile='audio/'+inputURLMD5+'/'+pageTitleNoSpaces+'.m4a';
+                        var outputFile='public/audio/'+inputURLMD5+'/'+pageTitleNoSpaces+'.m4a';
 
                         var options = {
                             global: {
                                 '-y': null,
                             },
                             input: {
-                                '-i': './audio/'+inputURLMD5+"/"+pageTitleNoSpaces+".wav"
+                                '-i': './public/audio/'+inputURLMD5+"/"+pageTitleNoSpaces+".wav"
 
                             },
                             output: {
