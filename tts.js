@@ -68,8 +68,8 @@ request(process.argv[2], function (error, response, html) {
 			 params = {
 			  text: page[i],
 			  voice: 'en-US_MichaelVoice', // Optional voice
-			  accept: 'audio/wav',
-			  fileName: "audio/"+inputURLMD5+"/"+inputURLMD5+'_'+zeroFill(i,2)+'.wav'
+			  accept: 'audio/ogg; codecs=opus',
+			  fileName: "audio/"+inputURLMD5+"/"+inputURLMD5+'_'+zeroFill(i,2)+'.ogg'
 			};
 
 			promiseCount++;
@@ -156,14 +156,14 @@ request(process.argv[2], function (error, response, html) {
 
 					console.log("allBinaryData X");
 
- 					var outputFileWAV='audio/'+inputURLMD5+'/'+pageTitleNoSpaces+'.wav';
+ 					var outputFileWAV='audio/'+inputURLMD5+'/'+pageTitleNoSpaces+'.ogg';
 
 					var wstream = fs.createWriteStream(outputFileWAV);
 					var buffer = allBinaryDataToWrite;
 					wstream.write(buffer);
 					wstream.end();
 
-				    console.log("The file was saved as "+'./audio/'+inputURLMD5+"/"+pageTitleNoSpaces+".wav");
+				    console.log("The file was saved as "+'./audio/'+inputURLMD5+"/"+pageTitleNoSpaces+".ogg");
 
 					var outputFile='audio/'+inputURLMD5+'/'+pageTitleNoSpaces+'.m4a';
 
@@ -172,7 +172,7 @@ request(process.argv[2], function (error, response, html) {
 							'-y': null,
 						},
 						input: {
-							'-i': './audio/'+inputURLMD5+"/"+pageTitleNoSpaces+".wav"
+							'-i': './audio/'+inputURLMD5+"/"+pageTitleNoSpaces+".ogg"
 
 						},
 						output: {
